@@ -7,6 +7,7 @@ use App\Models\Skill;
 use Illuminate\Http\Request;
 use App\Http\Requests\PracticeCreateRequest;
 use App\Http\Requests\PracticeUpdateRequest;
+use PDF;
 
 class PracticeController extends Controller
 {
@@ -33,10 +34,11 @@ class PracticeController extends Controller
      */
     public function store(PracticeCreateRequest $request)
     {
+        // dd($request);
         $validated = $request->validated();
         Practice::create($validated);
 
-        return redirect('/skills/'.$request['skill_id']);
+        return redirect('/skill/'.$request['skill_id']);
     }
 
     public function edit(Practice $practice) {
@@ -67,7 +69,7 @@ class PracticeController extends Controller
         $validated = $request->validated();
         $practice->update($validated);
 
-        return redirect('/skills/'.$practice->id);
+        return redirect('/skill/'.$practice->skill->id);
     }
 
     /**
@@ -80,4 +82,20 @@ class PracticeController extends Controller
     {
         //
     }
+
+    public function createPDF(Request $request, Practice $practice) {
+        
+        // dd($request);
+        $phrase = $request['phrase'];
+        $hanzi = $request['hanzi'];
+        $pinyin = $request['pinyin'];
+
+        // view()->share('practices.show', compact('practice'));
+        
+        $pdf = PDF::loadView('practices.pdf', compact('practice', 'phrase', 'hanzi', 'pinyin'));
+  
+        // return $pdf->download('pdf_file.pdf');
+        return $pdf->stream('pdf_file.pdf');
+        // return $dompdf->stream('estadisticas_'.$request['order_by'].'.pdf');
+      }
 }

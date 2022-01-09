@@ -24,9 +24,10 @@ class SkillCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
+            'name' => 'required|unique:skills,name,null,id,language_id,'.session()->get('language_id').',unit_id,'.$this->request->get('unit_id').'|min:2|max:255',
             'unit_id' => 'required',
-            'name' => 'required|unique:skills|min:2|max:255',
+            'language_id' => 'required',
+            'user_id' => 'required',
         ];
     }
 }

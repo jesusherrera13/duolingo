@@ -24,8 +24,9 @@ class UnitCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|unique:units,name,null,id,language_id,'.session()->get('language_id').'|min:2|max:255',
+            'language_id' => 'required',
             'user_id' => 'required',
-            'name' => 'required|unique:units|min:2|max:255',
         ];
     }
 }

@@ -14,9 +14,9 @@ class UnitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $units = Unit::all();
+        $units = Unit::where('language_id', $request->session()->get('language_id'))->get();
         return view('units.index', compact('units'));
     }
 
@@ -46,9 +46,12 @@ class UnitController extends Controller
      * @param  \App\Models\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function show(Unit $unit)
+    public function show($id)
     {
-        return view('units.show', compact('unit'));
+        $unit = Unit::where('id', $id)->where('language_id', session()->get('language_id'))->first();
+
+        if($unit) return view('units.show', compact('unit'));
+        else return redirect('/units');
     }
 
     public function edit(Unit $unit)
@@ -65,7 +68,6 @@ class UnitController extends Controller
      */
     public function update(UnitUpdateRequest $request, Unit $unit)
     {
-        // dd($unit);
         $validated = $request->validated();
 
         $unit->update($validated);
@@ -84,10 +86,10 @@ class UnitController extends Controller
         //
     }
 
-    public function home()
+    public function home(Request $request)
     {
-        $units = Unit::all();
-        
+        $units = Unit::where('language_id', $request->session()->get('language_id'))->get();
+
         return view('home', compact('units'));
     }
 }

@@ -24,8 +24,9 @@ class UnitUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|min:2|max:255|unique:units,name,'.$this->request->get('id').',id,language_id,'.session()->get('language_id'),
+            'language_id' => 'required',
             'user_id' => 'required',
-            'name' => 'required|min:2|max:255|unique:units,name,'.$this->request->get('id').',id'
         ];
     }
 }

@@ -10,9 +10,10 @@ class Skill extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'unit_id',
         'name',
+        'unit_id',
+        'language_id',
+        'user_id',
     ];
 
     public function unit()

@@ -24,11 +24,12 @@ class PracticeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
-            'skill_id' => 'required',
-            'phrase' => 'required|min:1|unique:practices,phrase,'.$this->request->get('id'),
-            'hanzi' => 'nullable',
+            'hanzi' => 'required|min:1|unique:practices,hanzi,'.$this->request->get('id').',id,skill_id,'.$this->request->get('skill_id').',language_id,'.session()->get('language_id'),
             'pinyin' => 'nullable',
+            'meaning' => 'required|min:1|unique:practices,meaning,'.$this->request->get('id').',id,skill_id,'.$this->request->get('skill_id').',language_id,'.session()->get('language_id'),
+            'skill_id' => 'required',
+            'language_id' => 'required',
+            'user_id' => 'required',
         ];
     }
 }

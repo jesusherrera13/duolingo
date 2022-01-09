@@ -15,8 +15,10 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
+            $table->string('name', 100);
+            $table->unsignedBigInteger('language_id');
             $table->unsignedBigInteger('user_id');
+            $table->foreign('language_id')->references('id')->on('languages');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

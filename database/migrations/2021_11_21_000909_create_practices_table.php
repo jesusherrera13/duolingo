@@ -15,12 +15,14 @@ class CreatePracticesTable extends Migration
     {
         Schema::create('practices', function (Blueprint $table) {
             $table->id();
-            $table->text('phrase');
             $table->text('hanzi')->nullable();
             $table->text('pinyin')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->text('meaning');
             $table->unsignedBigInteger('skill_id');
+            $table->unsignedBigInteger('language_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('language_id')->references('id')->on('languages');
             $table->foreign('skill_id')->references('id')->on('skills');
             $table->timestamps();
         });

@@ -23,7 +23,6 @@ class SkillController extends Controller
 
     public function create(Request $request, Unit $unit)
     {
-
         return view('skills.create', compact('unit'));
     }
 
@@ -44,7 +43,7 @@ class SkillController extends Controller
         
         Skill::create($validated);
 
-        return redirect('/units/'.$request['unit_id']);
+        return redirect('/unit/'.$request['unit_id']);
     }
 
     /**
@@ -55,7 +54,9 @@ class SkillController extends Controller
      */
     public function show(Skill $skill)
     {
-        return view('skills.show', compact('skill'));
+        $title = $skill->unit->name.", ".$skill->name;
+
+        return view('skills.show', compact('skill','title'));
     }
 
     /**
@@ -70,7 +71,7 @@ class SkillController extends Controller
         $validated = $request->validated();
         $skill->update($validated);
 
-        return redirect('/units/'.$request['unit_id']);
+        return redirect('/units/'.$skill->unit->id);
     }
 
     /**
@@ -82,5 +83,10 @@ class SkillController extends Controller
     public function destroy(Skill $skill)
     {
         //
+    }
+
+    public function printable(Skill $skill)
+    {
+        return view('skills.printable', compact('skill'));
     }
 }

@@ -2,41 +2,47 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ URL::to('/units/'.$unit->id) }}" class="btn btn-sm btn-light text-secondary mb-3">
-        <i class="fas fa-arrow-left me-2"></i>
-        {{ $unit->name }}
-    </a>
-    
-    @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
-    <form action="/units/{{ $unit-> id }}" method="POST">
-
+    <form action="/unit/{{ $unit-> id }}" method="POST">
+        
         @csrf
         @method('PUT')
+        <input type="hidden" name="language_id" value="{{ session()->get('language_id') }}">
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
         <input type="hidden" name="id" value="{{ $unit-> id }}">
+
+        <div class="d-flex justify-content-between">
+            <a href="{{ URL::to('/unit/'.$unit->id) }}" class="btn btn-sm btn-{{ session()->get('language_code') }} mb-3">
+                <i class="fas fa-arrow-left me-2"></i>
+                {{ $unit->name }}
+            </a>
+            @if(Auth::check())
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-{{ session()->get('language_code') }} dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <button class="dropdown-item" type="submit">
+                            Save
+                        </button>
+                    </ul>
+                </div>
+            @endif
+        </div>
+    
+        @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
         <div class="row">
             
             <div class="col-md-8">
-                <div class="d-flex justify-content-between">
-
-                    <h3 class="text-secondary">Editing `{{ $unit->name }}`</h3>
-                    <div>
-                        <button type="submit" class="btn btn-sm btn-primary">
-                            <i class="fas fa-save"></i>
-                            Save
-                        </button>
-                    </div>
-                </div>
+                <h3 class="text-secondary">{{ $unit->name }}</h3>
             </div>
         </div>
         <div class="row">

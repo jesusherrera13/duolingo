@@ -10,11 +10,13 @@ class Practice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'skill_id',
-        'phrase',
         'hanzi',
         'pinyin',
+        'meaning',
+        'order',
+        'skill_id',
+        'language_id',
+        'user_id',
     ];
 
     function skill() {

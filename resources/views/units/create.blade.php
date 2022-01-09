@@ -2,11 +2,28 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ URL::to('/') }}" class="btn btn-sm btn-light text-secondary mb-3">
-        <i class="fas fa-arrow-left me-2"></i>
-        <span>Home</span>
-    </a>
-    <form action="/units" method="POST">
+    <form action="/unit" method="POST">
+        @csrf
+        <input type="hidden" name="language_id" value="{{ session()->get('language_id') }}">
+        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+        <div class="d-flex justify-content-between">
+            <a href="{{ URL::to('/') }}" class="btn btn-sm btn-{{ session()->get('language_code') }} mb-3">
+                <i class="fas fa-arrow-left me-2"></i>
+                <span>Home</span>
+            </a>
+            @if(Auth::check())
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-{{ session()->get('language_code') }} dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <button class="dropdown-item" type="submit">
+                            Save
+                        </button>
+                    </ul>
+                </div>
+            @endif
+        </div>
         @if($errors->any())
         <div class="row">
             <div class="col-md-8">
@@ -20,22 +37,6 @@
             </div>
         </div>
         @endif
-        <div class="row">
-            @csrf
-            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-            <div class="col-md-8">
-                <div class="d-flex justify-content-between">
-
-                    <h3>New unit</h3>
-                    <div>
-                        <button type="submit" class="btn btn-sm btn-primary">
-                            <i class="fas fa-save"></i>
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-md-8">
                 <div class="mb-3">
